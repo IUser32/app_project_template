@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:EmpleadosApp.ViewModels"
+             x:DataType="vm:EmpleadoFormViewModel"
              x:Class="EmpleadosApp.Views.EmpleadoFormPage"
              BackgroundColor="{StaticResource SurfaceBackground}"
              Title="Empleado">
+
+    <ContentPage.Resources>
+        <Style x:Key="ErrorLabel" TargetType="Label">
+            <Setter Property="TextColor" Value="{StaticResource Danger}" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Margin" Value="0,2,0,4" />
+        </Style>
+    </ContentPage.Resources>
 
     <Grid RowDefinitions="*,Auto">
 
@@ -13,65 +23,92 @@
                 <Label Text="Datos personales" Style="{StaticResource SectionLabel}" />
 
                 <Label Text="Nombre" Style="{StaticResource FormLabel}" />
-                <Entry x:Name="NombreEntry" Placeholder="Ej. Juan" />
+                <Entry Text="{Binding Nombre}" Placeholder="Ej. Juan" />
+                <Label Text="{Binding NombreError}"
+                       Style="{StaticResource ErrorLabel}"
+                       IsVisible="{Binding NombreError, Converter={StaticResource StringNotEmpty}}" />
 
                 <Label Text="Apellido" Style="{StaticResource FormLabel}" />
-                <Entry x:Name="ApellidoEntry" Placeholder="Ej. Pérez" />
+                <Entry Text="{Binding Apellido}" Placeholder="Ej. Pérez" />
+                <Label Text="{Binding ApellidoError}"
+                       Style="{StaticResource ErrorLabel}"
+                       IsVisible="{Binding ApellidoError, Converter={StaticResource StringNotEmpty}}" />
 
                 <Label Text="Cédula" Style="{StaticResource FormLabel}" />
-                <Entry x:Name="CedulaEntry"
+                <Entry Text="{Binding Cedula}"
                        Placeholder="10 dígitos"
                        Keyboard="Numeric"
                        MaxLength="10" />
+                <Label Text="{Binding CedulaError}"
+                       Style="{StaticResource ErrorLabel}"
+                       IsVisible="{Binding CedulaError, Converter={StaticResource StringNotEmpty}}" />
 
                 <Label Text="Fecha de nacimiento" Style="{StaticResource FormLabel}" />
-                <DatePicker x:Name="FechaNacimientoPicker" Format="dd/MM/yyyy" />
+                <DatePicker Date="{Binding FechaNacimiento}" Format="dd/MM/yyyy" />
+                <Label Text="{Binding FechaNacimientoError}"
+                       Style="{StaticResource ErrorLabel}"
+                       IsVisible="{Binding FechaNacimientoError, Converter={StaticResource StringNotEmpty}}" />
 
                 <Label Text="Teléfono" Style="{StaticResource FormLabel}" />
-                <Entry x:Name="TelefonoEntry"
+                <Entry Text="{Binding Telefono}"
                        Placeholder="10 dígitos"
                        Keyboard="Telephone"
                        MaxLength="10" />
+                <Label Text="{Binding TelefonoError}"
+                       Style="{StaticResource ErrorLabel}"
+                       IsVisible="{Binding TelefonoError, Converter={StaticResource StringNotEmpty}}" />
 
                 <Label Text="Correo" Style="{StaticResource FormLabel}" />
-                <Entry x:Name="CorreoEntry"
+                <Entry Text="{Binding Correo}"
                        Placeholder="ejemplo@correo.com"
                        Keyboard="Email" />
+                <Label Text="{Binding CorreoError}"
+                       Style="{StaticResource ErrorLabel}"
+                       IsVisible="{Binding CorreoError, Converter={StaticResource StringNotEmpty}}" />
 
                 <Label Text="Información laboral" Style="{StaticResource SectionLabel}" />
 
                 <Label Text="Cargo" Style="{StaticResource FormLabel}" />
-                <Entry x:Name="CargoEntry" Placeholder="Ej. Analista" />
+                <Entry Text="{Binding Cargo}" Placeholder="Ej. Analista" />
+                <Label Text="{Binding CargoError}"
+                       Style="{StaticResource ErrorLabel}"
+                       IsVisible="{Binding CargoError, Converter={StaticResource StringNotEmpty}}" />
 
                 <Label Text="Departamento" Style="{StaticResource FormLabel}" />
-                <Entry x:Name="DepartamentoEntry" Placeholder="Ej. Sistemas" />
+                <Entry Text="{Binding Departamento}" Placeholder="Ej. Sistemas" />
+                <Label Text="{Binding DepartamentoError}"
+                       Style="{StaticResource ErrorLabel}"
+                       IsVisible="{Binding DepartamentoError, Converter={StaticResource StringNotEmpty}}" />
 
                 <Label Text="Fecha de ingreso" Style="{StaticResource FormLabel}" />
-                <DatePicker x:Name="FechaIngresoPicker" Format="dd/MM/yyyy" />
+                <DatePicker Date="{Binding FechaIngreso}" Format="dd/MM/yyyy" />
+                <Label Text="{Binding FechaIngresoError}"
+                       Style="{StaticResource ErrorLabel}"
+                       IsVisible="{Binding FechaIngresoError, Converter={StaticResource StringNotEmpty}}" />
 
                 <Label Text="Salario" Style="{StaticResource FormLabel}" />
-                <Entry x:Name="SalarioEntry"
+                <Entry Text="{Binding SalarioTexto}"
                        Placeholder="0.00"
                        Keyboard="Numeric" />
+                <Label Text="{Binding SalarioError}"
+                       Style="{StaticResource ErrorLabel}"
+                       IsVisible="{Binding SalarioError, Converter={StaticResource StringNotEmpty}}" />
 
                 <Label Text="Estado" Style="{StaticResource FormLabel}" />
-                <Picker x:Name="EstadoPicker" Title="Selecciona un estado">
-                    <Picker.ItemsSource>
-                        <x:Array Type="{x:Type x:String}">
-                            <x:String>Activo</x:String>
-                            <x:String>Inactivo</x:String>
-                        </x:Array>
-                    </Picker.ItemsSource>
-                </Picker>
+                <Picker ItemsSource="{Binding EstadosDisponibles}"
+                        SelectedItem="{Binding EstadoSeleccionado}"
+                        Title="Selecciona un estado" />
+                <Label Text="{Binding EstadoError}"
+                       Style="{StaticResource ErrorLabel}"
+                       IsVisible="{Binding EstadoError, Converter={StaticResource StringNotEmpty}}" />
 
             </VerticalStackLayout>
         </ScrollView>
 
         <Button Grid.Row="1"
-                x:Name="GuardarButton"
                 Text="Guardar empleado"
                 Style="{StaticResource PrimaryButton}"
-                Clicked="OnGuardarClicked"
+                Command="{Binding GuardarCommand}"
                 Margin="16,8,16,16" />
 
     </Grid>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EmpleadosApp.Views.EmpleadoFormPage"
+             BackgroundColor="{StaticResource SurfaceBackground}"
+             Title="Empleado">
+
+    <Grid RowDefinitions="*,Auto">
+
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="16,16,16,8" Spacing="2">
+
+                <Label Text="Datos personales" Style="{StaticResource SectionLabel}" />
+
+                <Label Text="Nombre" Style="{StaticResource FormLabel}" />
+                <Entry x:Name="NombreEntry" Placeholder="Ej. Juan" />
+
+                <Label Text="Apellido" Style="{StaticResource FormLabel}" />
+                <Entry x:Name="ApellidoEntry" Placeholder="Ej. Pérez" />
+
+                <Label Text="Cédula" Style="{StaticResource FormLabel}" />
+                <Entry x:Name="CedulaEntry"
+                       Placeholder="10 dígitos"
+                       Keyboard="Numeric"
+                       MaxLength="10" />
+
+                <Label Text="Fecha de nacimiento" Style="{StaticResource FormLabel}" />
+                <DatePicker x:Name="FechaNacimientoPicker" Format="dd/MM/yyyy" />
+
+                <Label Text="Teléfono" Style="{StaticResource FormLabel}" />
+                <Entry x:Name="TelefonoEntry"
+                       Placeholder="10 dígitos"
+                       Keyboard="Telephone"
+                       MaxLength="10" />
+
+                <Label Text="Correo" Style="{StaticResource FormLabel}" />
+                <Entry x:Name="CorreoEntry"
+                       Placeholder="ejemplo@correo.com"
+                       Keyboard="Email" />
+
+                <Label Text="Información laboral" Style="{StaticResource SectionLabel}" />
+
+                <Label Text="Cargo" Style="{StaticResource FormLabel}" />
+                <Entry x:Name="CargoEntry" Placeholder="Ej. Analista" />
+
+                <Label Text="Departamento" Style="{StaticResource FormLabel}" />
+                <Entry x:Name="DepartamentoEntry" Placeholder="Ej. Sistemas" />
+
+                <Label Text="Fecha de ingreso" Style="{StaticResource FormLabel}" />
+                <DatePicker x:Name="FechaIngresoPicker" Format="dd/MM/yyyy" />
+
+                <Label Text="Salario" Style="{StaticResource FormLabel}" />
+                <Entry x:Name="SalarioEntry"
+                       Placeholder="0.00"
+                       Keyboard="Numeric" />
+
+                <Label Text="Estado" Style="{StaticResource FormLabel}" />
+                <Picker x:Name="EstadoPicker" Title="Selecciona un estado">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Activo</x:String>
+                            <x:String>Inactivo</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Button Grid.Row="1"
+                x:Name="GuardarButton"
+                Text="Guardar empleado"
+                Style="{StaticResource PrimaryButton}"
+                Margin="16,8,16,16" />
+
+    </Grid>
+
+</ContentPage>

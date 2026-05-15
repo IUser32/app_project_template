@@ -4,23 +4,34 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:EmpleadosApp.Views"
-    Title="EmpleadosApp"
-    FlyoutBehavior="Flyout">
+    Title="EmpleadosApp">
 
     <ShellContent Title="Login"
                   ContentTemplate="{DataTemplate views:LoginPage}"
-                  Route="login" />
+                  Route="login"
+                  Shell.FlyoutBehavior="Disabled"
+                  Shell.FlyoutItemIsVisible="False"
+                  Shell.NavBarIsVisible="False"
+                  Shell.TabBarIsVisible="False" />
 
-    <ShellContent Title="Inicio"
-                  ContentTemplate="{DataTemplate views:PrincipalPage}"
-                  Route="principal" />
+    <FlyoutItem Title="Empleados"
+                Route="app">
 
-    <ShellContent Title="Empleados"
-                  ContentTemplate="{DataTemplate views:EmpleadosListPage}"
-                  Route="empleados" />
+        <ShellContent Title="Inicio"
+                      ContentTemplate="{DataTemplate views:PrincipalPage}"
+                      Route="principal" />
 
-    <ShellContent Title="Formulario"
-                  ContentTemplate="{DataTemplate views:EmpleadoFormPage}"
-                  Route="empleado-form" />
+        <ShellContent Title="Empleados"
+                      ContentTemplate="{DataTemplate views:EmpleadosListPage}"
+                      Route="empleados" />
+
+        <ShellContent Title="Nuevo empleado"
+                      ContentTemplate="{DataTemplate views:EmpleadoFormPage}"
+                      Route="empleado-form" />
+
+    </FlyoutItem>
+
+    <MenuItem Text="Cerrar sesión"
+              Clicked="OnCerrarSesionClicked" />
 
 </Shell>

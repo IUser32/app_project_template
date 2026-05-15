@@ -3,25 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="EmpleadosApp.Views.LoginPage"
              BackgroundColor="{StaticResource SurfaceBackground}"
-             Title="Iniciar sesion">
+             Title="Iniciar sesión">
 
     <Grid Padding="24">
 
         <VerticalStackLayout Spacing="20" VerticalOptions="Center">
 
-            <Label Text="Registro Movil"
-                   Style="{StaticResource HeaderLabel}"
-                   HorizontalOptions="Center" />
-
-            <Label Text="de Empleados"
+            <Label Text="Gestión de Empleados"
                    Style="{StaticResource HeaderLabel}"
                    HorizontalOptions="Center"
-                   Margin="0,-8,0,12" />
+                   Margin="0,0,0,12" />
 
             <Border Style="{StaticResource Card}">
                 <VerticalStackLayout Spacing="6">
 
-                    <Label Text="Iniciar sesion"
+                    <Label Text="Iniciar sesión"
                            FontSize="18"
                            FontAttributes="Bold"
                            Margin="0,0,0,8" />
@@ -30,14 +26,15 @@
                     <Entry x:Name="UsuarioEntry"
                            Placeholder="admin" />
 
-                    <Label Text="Contrasena" Style="{StaticResource FormLabel}" />
+                    <Label Text="Contraseña" Style="{StaticResource FormLabel}" />
                     <Entry x:Name="ContrasenaEntry"
                            Placeholder="********"
                            IsPassword="True" />
 
                     <Button x:Name="IniciarSesionButton"
-                            Text="Iniciar sesion"
+                            Text="Iniciar sesión"
                             Style="{StaticResource PrimaryButton}"
+                            Clicked="OnIniciarSesionClicked"
                             Margin="0,16,0,0" />
 
                 </VerticalStackLayout>

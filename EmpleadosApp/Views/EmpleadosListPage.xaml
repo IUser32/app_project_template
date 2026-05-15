@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:EmpleadosApp.Models"
              x:Class="EmpleadosApp.Views.EmpleadosListPage"
              BackgroundColor="{StaticResource SurfaceBackground}"
              Title="Empleados">
@@ -16,13 +17,38 @@
 
         <Border Grid.Row="1" Style="{StaticResource Card}" Padding="0">
             <CollectionView x:Name="EmpleadosCollection"
-                            EmptyView="Sin empleados registrados." />
+                            EmptyView="Sin empleados registrados.">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Empleado">
+                        <Grid Padding="16,12" ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                            <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                <Label Text="{Binding NombreCompleto}"
+                                       FontAttributes="Bold"
+                                       FontSize="15" />
+                                <Label Text="{Binding Cargo}"
+                                       FontSize="13"
+                                       TextColor="{StaticResource Gray500}" />
+                                <Label Text="{Binding Departamento}"
+                                       FontSize="12"
+                                       TextColor="{StaticResource Gray400}" />
+                            </VerticalStackLayout>
+                            <Label Grid.Column="1"
+                                   Text="{Binding Estado}"
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Primary}"
+                                   VerticalOptions="Start" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </Border>
 
         <Button Grid.Row="2"
                 x:Name="NuevoEmpleadoButton"
                 Text="+ Nuevo empleado"
-                Style="{StaticResource PrimaryButton}" />
+                Style="{StaticResource PrimaryButton}"
+                Clicked="OnNuevoEmpleadoClicked" />
 
     </Grid>
 

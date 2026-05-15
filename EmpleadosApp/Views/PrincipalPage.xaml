@@ -13,7 +13,7 @@
                    Style="{StaticResource HeaderLabel}"
                    HorizontalOptions="Center" />
 
-            <Label Text="Selecciona una opcion"
+            <Label Text="Selecciona una opción"
                    Style="{StaticResource SubheaderLabel}"
                    HorizontalOptions="Center"
                    Margin="0,0,0,16" />
@@ -23,11 +23,13 @@
 
                     <Button x:Name="VerEmpleadosButton"
                             Text="Ver empleados"
-                            Style="{StaticResource PrimaryButton}" />
+                            Style="{StaticResource PrimaryButton}"
+                            Clicked="OnVerEmpleadosClicked" />
 
                     <Button x:Name="CerrarSesionButton"
-                            Text="Cerrar sesion"
-                            Style="{StaticResource DangerButton}" />
+                            Text="Cerrar sesión"
+                            Style="{StaticResource DangerButton}"
+                            Clicked="OnCerrarSesionClicked" />
 
                 </VerticalStackLayout>
             </Border>

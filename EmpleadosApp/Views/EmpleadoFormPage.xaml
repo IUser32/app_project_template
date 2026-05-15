@@ -16,20 +16,20 @@
                 <Entry x:Name="NombreEntry" Placeholder="Ej. Juan" />
 
                 <Label Text="Apellido" Style="{StaticResource FormLabel}" />
-                <Entry x:Name="ApellidoEntry" Placeholder="Ej. Perez" />
+                <Entry x:Name="ApellidoEntry" Placeholder="Ej. Pérez" />
 
-                <Label Text="Cedula" Style="{StaticResource FormLabel}" />
+                <Label Text="Cédula" Style="{StaticResource FormLabel}" />
                 <Entry x:Name="CedulaEntry"
-                       Placeholder="10 digitos"
+                       Placeholder="10 dígitos"
                        Keyboard="Numeric"
                        MaxLength="10" />
 
                 <Label Text="Fecha de nacimiento" Style="{StaticResource FormLabel}" />
                 <DatePicker x:Name="FechaNacimientoPicker" Format="dd/MM/yyyy" />
 
-                <Label Text="Telefono" Style="{StaticResource FormLabel}" />
+                <Label Text="Teléfono" Style="{StaticResource FormLabel}" />
                 <Entry x:Name="TelefonoEntry"
-                       Placeholder="10 digitos"
+                       Placeholder="10 dígitos"
                        Keyboard="Telephone"
                        MaxLength="10" />
 
@@ -38,7 +38,7 @@
                        Placeholder="ejemplo@correo.com"
                        Keyboard="Email" />
 
-                <Label Text="Informacion laboral" Style="{StaticResource SectionLabel}" />
+                <Label Text="Información laboral" Style="{StaticResource SectionLabel}" />
 
                 <Label Text="Cargo" Style="{StaticResource FormLabel}" />
                 <Entry x:Name="CargoEntry" Placeholder="Ej. Analista" />
@@ -71,6 +71,7 @@
                 x:Name="GuardarButton"
                 Text="Guardar empleado"
                 Style="{StaticResource PrimaryButton}"
+                Clicked="OnGuardarClicked"
                 Margin="16,8,16,16" />
 
     </Grid>

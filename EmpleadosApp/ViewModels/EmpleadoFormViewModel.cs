@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EmpleadosApp.Models;
 using EmpleadosApp.Services;
+using SQLite;
 
 namespace EmpleadosApp.ViewModels;
 
@@ -95,22 +96,30 @@ public partial class EmpleadoFormViewModel : ObservableObject, IQueryAttributabl
 
         var empleado = ConstruirEmpleadoDesdeForm();
 
-        if (ModoEditar)
+        try
         {
-            empleado.Id = _idEditando;
-            EmpleadosService.Actualizar(empleado);
-            await Shell.Current.DisplayAlertAsync(
-                "Empleado actualizado",
-                $"{empleado.NombreCompleto} fue actualizado correctamente.",
-                "Aceptar");
+            if (ModoEditar)
+            {
+                empleado.Id = _idEditando;
+                await EmpleadosService.ActualizarAsync(empleado);
+                await Shell.Current.DisplayAlertAsync(
+                    "Empleado actualizado",
+                    $"{empleado.NombreCompleto} fue actualizado correctamente.",
+                    "Aceptar");
+            }
+            else
+            {
+                await EmpleadosService.AgregarAsync(empleado);
+                await Shell.Current.DisplayAlertAsync(
+                    "Empleado registrado",
+                    $"{empleado.NombreCompleto} fue agregado correctamente.",
+                    "Aceptar");
+            }
         }
-        else
+        catch (SQLiteException ex) when (ex.Message.Contains("UNIQUE", StringComparison.OrdinalIgnoreCase))
         {
-            EmpleadosService.Agregar(empleado);
-            await Shell.Current.DisplayAlertAsync(
-                "Empleado registrado",
-                $"{empleado.NombreCompleto} fue agregado correctamente.",
-                "Aceptar");
+            CedulaError = "Ya existe un empleado con esta cédula.";
+            return;
         }
 
         ResetearParaNuevo();
@@ -130,7 +139,7 @@ public partial class EmpleadoFormViewModel : ObservableObject, IQueryAttributabl
 
         if (!confirmar) return;
 
-        EmpleadosService.Eliminar(_idEditando);
+        await EmpleadosService.EliminarAsync(_idEditando);
 
         await Shell.Current.DisplayAlertAsync(
             "Empleado eliminado",

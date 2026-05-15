@@ -11,6 +11,12 @@ public partial class EmpleadosListPage : ContentPage
         EmpleadosCollection.ItemsSource = EmpleadosService.Empleados;
     }
 
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await EmpleadosService.InicializarAsync();
+    }
+
     private async void OnNuevoEmpleadoClicked(object? sender, EventArgs e)
     {
         await Shell.Current.GoToAsync("//empleado-form");
@@ -37,6 +43,6 @@ public partial class EmpleadosListPage : ContentPage
 
         if (!confirmar) return;
 
-        EmpleadosService.Eliminar(empleado.Id);
+        await EmpleadosService.EliminarAsync(empleado.Id);
     }
 }

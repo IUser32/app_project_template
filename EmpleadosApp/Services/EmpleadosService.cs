@@ -1,22 +1,44 @@
 using System.Collections.ObjectModel;
 using EmpleadosApp.Models;
+using SQLite;
 
 namespace EmpleadosApp.Services;
 
 public static class EmpleadosService
 {
-    private static int _siguienteId = 1;
+    private static SQLiteAsyncConnection? _db;
+    private static bool _inicializado;
 
     public static ObservableCollection<Empleado> Empleados { get; } = new();
 
-    public static void Agregar(Empleado empleado)
+    public static async Task InicializarAsync()
     {
-        empleado.Id = _siguienteId++;
+        if (_inicializado) return;
+
+        var ruta = Path.Combine(FileSystem.AppDataDirectory, "empleados.db3");
+        _db = new SQLiteAsyncConnection(ruta);
+        await _db.CreateTableAsync<Empleado>();
+
+        var lista = await _db.Table<Empleado>().ToListAsync();
+        Empleados.Clear();
+        foreach (var empleado in lista)
+        {
+            Empleados.Add(empleado);
+        }
+
+        _inicializado = true;
+    }
+
+    public static async Task AgregarAsync(Empleado empleado)
+    {
+        await _db!.InsertAsync(empleado);
         Empleados.Add(empleado);
     }
 
-    public static void Actualizar(Empleado empleado)
+    public static async Task ActualizarAsync(Empleado empleado)
     {
+        await _db!.UpdateAsync(empleado);
+
         var indice = BuscarIndicePorId(empleado.Id);
         if (indice >= 0)
         {
@@ -24,8 +46,10 @@ public static class EmpleadosService
         }
     }
 
-    public static void Eliminar(int id)
+    public static async Task EliminarAsync(int id)
     {
+        await _db!.DeleteAsync<Empleado>(id);
+
         var indice = BuscarIndicePorId(id);
         if (indice >= 0)
         {

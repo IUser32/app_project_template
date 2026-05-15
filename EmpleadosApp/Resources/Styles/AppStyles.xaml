@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Color x:Key="Danger">#DC2626</Color>
+    <Color x:Key="Success">#16A34A</Color>
+    <Color x:Key="SurfaceBackground">#F4F4F8</Color>
+
+    <Style x:Key="PrimaryButton" TargetType="Button">
+        <Setter Property="HeightRequest" Value="48"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+    </Style>
+
+    <Style x:Key="DangerButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource Danger}"/>
+        <Setter Property="TextColor" Value="White"/>
+        <Setter Property="HeightRequest" Value="48"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+    </Style>
+
+    <Style x:Key="SecondaryButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Transparent"/>
+        <Setter Property="TextColor" Value="{StaticResource Primary}"/>
+        <Setter Property="BorderColor" Value="{StaticResource Primary}"/>
+        <Setter Property="BorderWidth" Value="1"/>
+        <Setter Property="HeightRequest" Value="48"/>
+        <Setter Property="FontSize" Value="16"/>
+    </Style>
+
+    <Style x:Key="HeaderLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="TextColor" Value="{StaticResource Gray900}"/>
+    </Style>
+
+    <Style x:Key="SubheaderLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="TextColor" Value="{StaticResource Gray500}"/>
+    </Style>
+
+    <Style x:Key="SectionLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="TextColor" Value="{StaticResource Primary}"/>
+        <Setter Property="Margin" Value="0,12,0,4"/>
+    </Style>
+
+    <Style x:Key="FormLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="TextColor" Value="{StaticResource Gray600}"/>
+        <Setter Property="Margin" Value="0,8,0,0"/>
+    </Style>
+
+    <Style x:Key="Card" TargetType="Border">
+        <Setter Property="Stroke" Value="{StaticResource Gray200}"/>
+        <Setter Property="StrokeThickness" Value="1"/>
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="12"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BackgroundColor" Value="White"/>
+        <Setter Property="Padding" Value="20"/>
+    </Style>
+
+</ResourceDictionary>

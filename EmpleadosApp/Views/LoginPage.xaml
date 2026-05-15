@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EmpleadosApp.Views.LoginPage"
+             BackgroundColor="{StaticResource SurfaceBackground}"
+             Title="Iniciar sesion">
+
+    <Grid Padding="24">
+
+        <VerticalStackLayout Spacing="20" VerticalOptions="Center">
+
+            <Label Text="Registro Movil"
+                   Style="{StaticResource HeaderLabel}"
+                   HorizontalOptions="Center" />
+
+            <Label Text="de Empleados"
+                   Style="{StaticResource HeaderLabel}"
+                   HorizontalOptions="Center"
+                   Margin="0,-8,0,12" />
+
+            <Border Style="{StaticResource Card}">
+                <VerticalStackLayout Spacing="6">
+
+                    <Label Text="Iniciar sesion"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           Margin="0,0,0,8" />
+
+                    <Label Text="Usuario" Style="{StaticResource FormLabel}" />
+                    <Entry x:Name="UsuarioEntry"
+                           Placeholder="admin" />
+
+                    <Label Text="Contrasena" Style="{StaticResource FormLabel}" />
+                    <Entry x:Name="ContrasenaEntry"
+                           Placeholder="********"
+                           IsPassword="True" />
+
+                    <Button x:Name="IniciarSesionButton"
+                            Text="Iniciar sesion"
+                            Style="{StaticResource PrimaryButton}"
+                            Margin="0,16,0,0" />
+
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+
+    </Grid>
+
+</ContentPage>

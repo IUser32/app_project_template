@@ -14,4 +14,37 @@ public static class EmpleadosService
         empleado.Id = _siguienteId++;
         Empleados.Add(empleado);
     }
+
+    public static void Actualizar(Empleado empleado)
+    {
+        var indice = BuscarIndicePorId(empleado.Id);
+        if (indice >= 0)
+        {
+            Empleados[indice] = empleado;
+        }
+    }
+
+    public static void Eliminar(int id)
+    {
+        var indice = BuscarIndicePorId(id);
+        if (indice >= 0)
+        {
+            Empleados.RemoveAt(indice);
+        }
+    }
+
+    public static Empleado? ObtenerPorId(int id)
+    {
+        var indice = BuscarIndicePorId(id);
+        return indice >= 0 ? Empleados[indice] : null;
+    }
+
+    private static int BuscarIndicePorId(int id)
+    {
+        for (var i = 0; i < Empleados.Count; i++)
+        {
+            if (Empleados[i].Id == id) return i;
+        }
+        return -1;
+    }
 }

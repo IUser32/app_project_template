@@ -11,13 +11,15 @@
         <VerticalStackLayout Grid.Row="0" Spacing="2">
             <Label Text="Empleados registrados"
                    Style="{StaticResource HeaderLabel}" />
-            <Label Text="Lista de empleados ingresados en el sistema"
+            <Label Text="Toca un empleado para editarlo"
                    Style="{StaticResource SubheaderLabel}" />
         </VerticalStackLayout>
 
         <Border Grid.Row="1" Style="{StaticResource Card}" Padding="0">
             <CollectionView x:Name="EmpleadosCollection"
-                            EmptyView="Sin empleados registrados.">
+                            EmptyView="Sin empleados registrados."
+                            SelectionMode="Single"
+                            SelectionChanged="OnEmpleadoSeleccionado">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Empleado">
                         <Grid Padding="16,12" ColumnDefinitions="*,Auto" ColumnSpacing="12">
@@ -32,12 +34,25 @@
                                        FontSize="12"
                                        TextColor="{StaticResource Gray400}" />
                             </VerticalStackLayout>
-                            <Label Grid.Column="1"
-                                   Text="{Binding Estado}"
-                                   FontSize="12"
-                                   FontAttributes="Bold"
-                                   TextColor="{StaticResource Primary}"
-                                   VerticalOptions="Start" />
+
+                            <VerticalStackLayout Grid.Column="1"
+                                                 Spacing="6"
+                                                 VerticalOptions="Center">
+                                <Label Text="{Binding Estado}"
+                                       FontSize="12"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource Primary}"
+                                       HorizontalOptions="End" />
+                                <Button Text="Eliminar"
+                                        BackgroundColor="{StaticResource Danger}"
+                                        TextColor="White"
+                                        FontSize="11"
+                                        HeightRequest="32"
+                                        WidthRequest="80"
+                                        CornerRadius="6"
+                                        Padding="0"
+                                        Clicked="OnEliminarEmpleadoClicked" />
+                            </VerticalStackLayout>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

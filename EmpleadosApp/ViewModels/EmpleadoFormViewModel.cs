@@ -7,11 +7,16 @@ using EmpleadosApp.Services;
 
 namespace EmpleadosApp.ViewModels;
 
-public partial class EmpleadoFormViewModel : ObservableObject
+public partial class EmpleadoFormViewModel : ObservableObject, IQueryAttributable
 {
     private static readonly Regex SoloLetras = new(@"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$");
     private static readonly Regex DiezDigitos = new(@"^\d{10}$");
     private static readonly Regex Email = new(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+
+    private int _idEditando;
+
+    [ObservableProperty] private bool modoEditar;
+    [ObservableProperty] private string tituloPagina = "Nuevo empleado";
 
     [ObservableProperty] private string nombre = string.Empty;
     [ObservableProperty] private string apellido = string.Empty;
@@ -39,36 +44,117 @@ public partial class EmpleadoFormViewModel : ObservableObject
 
     public ObservableCollection<string> EstadosDisponibles { get; } = new() { "Activo", "Inactivo" };
 
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        if (query.TryGetValue("id", out var idObj) && int.TryParse(idObj?.ToString(), out var id) && id > 0)
+        {
+            var empleado = EmpleadosService.ObtenerPorId(id);
+            if (empleado is not null)
+            {
+                CargarDesde(empleado);
+                return;
+            }
+        }
+
+        ResetearParaNuevo();
+    }
+
+    private void CargarDesde(Empleado empleado)
+    {
+        _idEditando = empleado.Id;
+        ModoEditar = true;
+        TituloPagina = "Editar empleado";
+
+        Nombre = empleado.Nombre;
+        Apellido = empleado.Apellido;
+        Cedula = empleado.Cedula;
+        FechaNacimiento = empleado.FechaNacimiento;
+        Telefono = empleado.Telefono;
+        Correo = empleado.Correo;
+        Cargo = empleado.Cargo;
+        Departamento = empleado.Departamento;
+        FechaIngreso = empleado.FechaIngreso;
+        SalarioTexto = empleado.Salario.ToString();
+        EstadoSeleccionado = empleado.Estado;
+
+        LimpiarErrores();
+    }
+
+    private void ResetearParaNuevo()
+    {
+        _idEditando = 0;
+        ModoEditar = false;
+        TituloPagina = "Nuevo empleado";
+        Limpiar();
+    }
+
     [RelayCommand]
     private async Task GuardarAsync()
     {
         if (!Validar()) return;
 
-        var empleado = new Empleado
+        var empleado = ConstruirEmpleadoDesdeForm();
+
+        if (ModoEditar)
         {
-            Nombre = Nombre.Trim(),
-            Apellido = Apellido.Trim(),
-            Cedula = Cedula.Trim(),
-            FechaNacimiento = FechaNacimiento,
-            Telefono = Telefono.Trim(),
-            Correo = Correo.Trim(),
-            Cargo = Cargo.Trim(),
-            Departamento = Departamento.Trim(),
-            FechaIngreso = FechaIngreso,
-            Salario = decimal.Parse(SalarioTexto),
-            Estado = EstadoSeleccionado!
-        };
+            empleado.Id = _idEditando;
+            EmpleadosService.Actualizar(empleado);
+            await Shell.Current.DisplayAlertAsync(
+                "Empleado actualizado",
+                $"{empleado.NombreCompleto} fue actualizado correctamente.",
+                "Aceptar");
+        }
+        else
+        {
+            EmpleadosService.Agregar(empleado);
+            await Shell.Current.DisplayAlertAsync(
+                "Empleado registrado",
+                $"{empleado.NombreCompleto} fue agregado correctamente.",
+                "Aceptar");
+        }
 
-        EmpleadosService.Agregar(empleado);
-
-        await Shell.Current.DisplayAlertAsync(
-            "Empleado registrado",
-            $"{empleado.NombreCompleto} fue agregado correctamente.",
-            "Aceptar");
-
-        Limpiar();
+        ResetearParaNuevo();
         await Shell.Current.GoToAsync("//empleados");
     }
+
+    [RelayCommand]
+    private async Task EliminarAsync()
+    {
+        if (!ModoEditar) return;
+
+        var confirmar = await Shell.Current.DisplayAlertAsync(
+            "Eliminar empleado",
+            $"¿Seguro que quieres eliminar a {Nombre} {Apellido}?",
+            "Sí, eliminar",
+            "Cancelar");
+
+        if (!confirmar) return;
+
+        EmpleadosService.Eliminar(_idEditando);
+
+        await Shell.Current.DisplayAlertAsync(
+            "Empleado eliminado",
+            "El empleado fue eliminado correctamente.",
+            "Aceptar");
+
+        ResetearParaNuevo();
+        await Shell.Current.GoToAsync("//empleados");
+    }
+
+    private Empleado ConstruirEmpleadoDesdeForm() => new()
+    {
+        Nombre = Nombre.Trim(),
+        Apellido = Apellido.Trim(),
+        Cedula = Cedula.Trim(),
+        FechaNacimiento = FechaNacimiento,
+        Telefono = Telefono.Trim(),
+        Correo = Correo.Trim(),
+        Cargo = Cargo.Trim(),
+        Departamento = Departamento.Trim(),
+        FechaIngreso = FechaIngreso,
+        Salario = decimal.Parse(SalarioTexto),
+        Estado = EstadoSeleccionado!
+    };
 
     private bool Validar()
     {
@@ -198,6 +284,11 @@ public partial class EmpleadoFormViewModel : ObservableObject
         SalarioTexto = string.Empty;
         EstadoSeleccionado = null;
 
+        LimpiarErrores();
+    }
+
+    private void LimpiarErrores()
+    {
         NombreError = string.Empty;
         ApellidoError = string.Empty;
         CedulaError = string.Empty;

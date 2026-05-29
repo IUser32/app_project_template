@@ -14,21 +14,50 @@
                   Shell.NavBarIsVisible="False"
                   Shell.TabBarIsVisible="False" />
 
-    <FlyoutItem Title="Empleados"
-                Route="app">
-
-        <ShellContent Title="Inicio"
-                      ContentTemplate="{DataTemplate views:PrincipalPage}"
+    <FlyoutItem Title="Inicio"
+                Route="inicio">
+        <ShellContent ContentTemplate="{DataTemplate views:PrincipalPage}"
                       Route="principal" />
+    </FlyoutItem>
 
-        <ShellContent Title="Empleados"
+    <FlyoutItem Title="Empleados"
+                Route="empleados-flyout">
+        <ShellContent Title="Listado"
                       ContentTemplate="{DataTemplate views:EmpleadosListPage}"
                       Route="empleados" />
-
-        <ShellContent Title="Nuevo empleado"
+        <ShellContent Title="Nuevo / Editar"
                       ContentTemplate="{DataTemplate views:EmpleadoFormPage}"
                       Route="empleado-form" />
+    </FlyoutItem>
 
+    <FlyoutItem Title="Departamentos"
+                Route="departamentos-flyout">
+        <ShellContent Title="Listado"
+                      ContentTemplate="{DataTemplate views:DepartamentosListPage}"
+                      Route="departamentos" />
+        <ShellContent Title="Nuevo / Editar"
+                      ContentTemplate="{DataTemplate views:DepartamentoFormPage}"
+                      Route="departamento-form" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Cargos"
+                Route="cargos-flyout">
+        <ShellContent Title="Listado"
+                      ContentTemplate="{DataTemplate views:CargosListPage}"
+                      Route="cargos" />
+        <ShellContent Title="Nuevo / Editar"
+                      ContentTemplate="{DataTemplate views:CargoFormPage}"
+                      Route="cargo-form" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Usuarios"
+                Route="usuarios-flyout">
+        <ShellContent Title="Listado"
+                      ContentTemplate="{DataTemplate views:UsuariosListPage}"
+                      Route="usuarios" />
+        <ShellContent Title="Nuevo / Editar"
+                      ContentTemplate="{DataTemplate views:UsuarioFormPage}"
+                      Route="usuario-form" />
     </FlyoutItem>
 
     <MenuItem Text="Cerrar sesión"

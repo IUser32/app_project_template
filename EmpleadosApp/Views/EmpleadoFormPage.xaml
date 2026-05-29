@@ -68,17 +68,24 @@
 
                 <Label Text="Información laboral" Style="{StaticResource SectionLabel}" />
 
-                <Label Text="Cargo" Style="{StaticResource FormLabel}" />
-                <Entry Text="{Binding Cargo}" Placeholder="Ej. Analista" />
-                <Label Text="{Binding CargoError}"
-                       Style="{StaticResource ErrorLabel}"
-                       IsVisible="{Binding CargoError, Converter={StaticResource StringNotEmpty}}" />
-
                 <Label Text="Departamento" Style="{StaticResource FormLabel}" />
-                <Entry Text="{Binding Departamento}" Placeholder="Ej. Sistemas" />
+                <Picker ItemsSource="{Binding DepartamentosDisponibles}"
+                        ItemDisplayBinding="{Binding Nombre}"
+                        SelectedItem="{Binding DepartamentoSeleccionado}"
+                        Title="Selecciona un departamento" />
                 <Label Text="{Binding DepartamentoError}"
                        Style="{StaticResource ErrorLabel}"
                        IsVisible="{Binding DepartamentoError, Converter={StaticResource StringNotEmpty}}" />
+
+                <Label Text="Cargo" Style="{StaticResource FormLabel}" />
+                <Picker ItemsSource="{Binding CargosDisponibles}"
+                        ItemDisplayBinding="{Binding Nombre}"
+                        SelectedItem="{Binding CargoSeleccionado}"
+                        Title="Selecciona un cargo"
+                        IsEnabled="{Binding DepartamentoSeleccionado, Converter={StaticResource IsNotNull}}" />
+                <Label Text="{Binding CargoError}"
+                       Style="{StaticResource ErrorLabel}"
+                       IsVisible="{Binding CargoError, Converter={StaticResource StringNotEmpty}}" />
 
                 <Label Text="Fecha de ingreso" Style="{StaticResource FormLabel}" />
                 <DatePicker Date="{Binding FechaIngreso}" Format="dd/MM/yyyy" />

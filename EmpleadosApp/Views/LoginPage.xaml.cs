@@ -1,13 +1,18 @@
+using EmpleadosApp.Services;
+
 namespace EmpleadosApp.Views;
 
 public partial class LoginPage : ContentPage
 {
-    private const string UsuarioValido = "admin";
-    private const string ContrasenaValida = "1234";
-
     public LoginPage()
     {
         InitializeComponent();
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await EmpleadosService.InicializarAsync();
     }
 
     private async void OnIniciarSesionClicked(object? sender, EventArgs e)
@@ -21,16 +26,16 @@ public partial class LoginPage : ContentPage
             return;
         }
 
-        if (usuario == UsuarioValido && contrasena == ContrasenaValida)
-        {
-            UsuarioEntry.Text = string.Empty;
-            ContrasenaEntry.Text = string.Empty;
-
-            await Shell.Current.GoToAsync("//principal");
-        }
-        else
+        var autenticado = UsuariosService.Autenticar(usuario, contrasena);
+        if (autenticado is null)
         {
             await DisplayAlertAsync("Credenciales inválidas", "Usuario o contraseña incorrectos.", "Aceptar");
+            return;
         }
+
+        UsuarioEntry.Text = string.Empty;
+        ContrasenaEntry.Text = string.Empty;
+
+        await Shell.Current.GoToAsync("//principal");
     }
 }

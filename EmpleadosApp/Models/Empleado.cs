@@ -17,12 +17,20 @@ public class Empleado
     public DateTime FechaNacimiento { get; set; }
     public string Telefono { get; set; } = string.Empty;
     public string Correo { get; set; } = string.Empty;
-    public string Cargo { get; set; } = string.Empty;
-    public string Departamento { get; set; } = string.Empty;
+
+    public int CargoId { get; set; }
+    public int DepartamentoId { get; set; }
+
     public DateTime FechaIngreso { get; set; }
     public decimal Salario { get; set; }
     public string Estado { get; set; } = "Activo";
 
     [Ignore]
     public string NombreCompleto => $"{Nombre} {Apellido}";
+
+    [Ignore]
+    public string CargoNombre { get; set; } = string.Empty;
+
+    [Ignore]
+    public string DepartamentoNombre { get; set; } = string.Empty;
 }

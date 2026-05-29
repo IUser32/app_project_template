@@ -1,16 +1,40 @@
+using EmpleadosApp.Services;
+using EmpleadosApp.ViewModels;
+
 namespace EmpleadosApp.Views;
 
 public partial class PrincipalPage : ContentPage
 {
+    private readonly DashboardViewModel _viewModel;
+
     public PrincipalPage()
     {
         InitializeComponent();
+        _viewModel = new DashboardViewModel();
+        BindingContext = _viewModel;
     }
 
-    private async void OnVerEmpleadosClicked(object? sender, EventArgs e)
+    protected override async void OnAppearing()
     {
-        await Shell.Current.GoToAsync("//empleados");
+        base.OnAppearing();
+        await EmpleadosService.InicializarAsync();
+        _viewModel.Refrescar();
     }
+
+    private async void OnEmpleadosClicked(object? sender, EventArgs e)
+        => await Shell.Current.GoToAsync("//empleados");
+
+    private async void OnDepartamentosClicked(object? sender, EventArgs e)
+        => await Shell.Current.GoToAsync("//departamentos");
+
+    private async void OnCargosClicked(object? sender, EventArgs e)
+        => await Shell.Current.GoToAsync("//cargos");
+
+    private async void OnUsuariosClicked(object? sender, EventArgs e)
+        => await Shell.Current.GoToAsync("//usuarios");
+
+    private async void OnNuevoEmpleadoClicked(object? sender, EventArgs e)
+        => await Shell.Current.GoToAsync("//empleado-form");
 
     private async void OnCerrarSesionClicked(object? sender, EventArgs e)
     {
@@ -22,6 +46,7 @@ public partial class PrincipalPage : ContentPage
 
         if (confirmar)
         {
+            UsuariosService.CerrarSesion();
             await Shell.Current.GoToAsync("//login");
         }
     }

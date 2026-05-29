@@ -6,7 +6,7 @@
              BackgroundColor="{StaticResource SurfaceBackground}"
              Title="Empleados">
 
-    <Grid Padding="16" RowDefinitions="Auto,*,Auto" RowSpacing="12">
+    <Grid Padding="16" RowDefinitions="Auto,Auto,*,Auto" RowSpacing="12">
 
         <VerticalStackLayout Grid.Row="0" Spacing="2">
             <Label Text="Empleados registrados"
@@ -15,11 +15,26 @@
                    Style="{StaticResource SubheaderLabel}" />
         </VerticalStackLayout>
 
-        <Border Grid.Row="1" Style="{StaticResource Card}" Padding="0">
+        <SearchBar Grid.Row="1"
+                   x:Name="BuscarBar"
+                   Placeholder="Buscar por nombre, cédula o cargo"
+                   TextChanged="OnBuscarTextChanged" />
+
+        <Border Grid.Row="2" Style="{StaticResource Card}" Padding="0">
             <CollectionView x:Name="EmpleadosCollection"
-                            EmptyView="Sin empleados registrados."
                             SelectionMode="Single"
                             SelectionChanged="OnEmpleadoSeleccionado">
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout Padding="24" Spacing="6" HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label Text="Sin resultados"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center" />
+                        <Label Text="Ajusta la búsqueda o agrega un nuevo empleado."
+                               Style="{StaticResource SubheaderLabel}"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Empleado">
                         <Grid Padding="16,12" ColumnDefinitions="*,Auto" ColumnSpacing="12">
@@ -27,10 +42,10 @@
                                 <Label Text="{Binding NombreCompleto}"
                                        FontAttributes="Bold"
                                        FontSize="15" />
-                                <Label Text="{Binding Cargo}"
+                                <Label Text="{Binding CargoNombre}"
                                        FontSize="13"
                                        TextColor="{StaticResource Gray500}" />
-                                <Label Text="{Binding Departamento}"
+                                <Label Text="{Binding DepartamentoNombre}"
                                        FontSize="12"
                                        TextColor="{StaticResource Gray400}" />
                             </VerticalStackLayout>
@@ -59,8 +74,7 @@
             </CollectionView>
         </Border>
 
-        <Button Grid.Row="2"
-                x:Name="NuevoEmpleadoButton"
+        <Button Grid.Row="3"
                 Text="+ Nuevo empleado"
                 Style="{StaticResource PrimaryButton}"
                 Clicked="OnNuevoEmpleadoClicked" />

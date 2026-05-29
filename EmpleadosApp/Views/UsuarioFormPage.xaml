@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:EmpleadosApp.ViewModels"
+             x:DataType="vm:UsuarioFormViewModel"
+             x:Class="EmpleadosApp.Views.UsuarioFormPage"
+             BackgroundColor="{StaticResource SurfaceBackground}"
+             Title="{Binding TituloPagina}">
+
+    <ContentPage.Resources>
+        <Style x:Key="ErrorLabel" TargetType="Label">
+            <Setter Property="TextColor" Value="{StaticResource Danger}" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Margin" Value="0,2,0,4" />
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="*,Auto">
+
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="16,16,16,8" Spacing="2">
+
+                <Label Text="Datos del usuario" Style="{StaticResource SectionLabel}" />
+
+                <Label Text="Nombre de usuario" Style="{StaticResource FormLabel}" />
+                <Entry Text="{Binding Username}" Placeholder="Ej. jperez" />
+                <Label Text="{Binding UsernameError}"
+                       Style="{StaticResource ErrorLabel}"
+                       IsVisible="{Binding UsernameError, Converter={StaticResource StringNotEmpty}}" />
+
+                <Label Text="Nombre completo" Style="{StaticResource FormLabel}" />
+                <Entry Text="{Binding NombreCompleto}" Placeholder="Ej. Juan Pérez" />
+                <Label Text="{Binding NombreCompletoError}"
+                       Style="{StaticResource ErrorLabel}"
+                       IsVisible="{Binding NombreCompletoError, Converter={StaticResource StringNotEmpty}}" />
+
+                <Label Text="Contraseña" Style="{StaticResource FormLabel}" />
+                <Entry Text="{Binding Password}"
+                       Placeholder="{Binding PasswordPlaceholder}"
+                       IsPassword="True" />
+                <Label Text="{Binding PasswordError}"
+                       Style="{StaticResource ErrorLabel}"
+                       IsVisible="{Binding PasswordError, Converter={StaticResource StringNotEmpty}}" />
+
+                <Label Text="Confirmar contraseña" Style="{StaticResource FormLabel}" />
+                <Entry Text="{Binding ConfirmarPassword}"
+                       Placeholder="Repite la contraseña"
+                       IsPassword="True" />
+                <Label Text="{Binding ConfirmarPasswordError}"
+                       Style="{StaticResource ErrorLabel}"
+                       IsVisible="{Binding ConfirmarPasswordError, Converter={StaticResource StringNotEmpty}}" />
+
+                <Label Text="Estado" Style="{StaticResource FormLabel}" />
+                <Picker ItemsSource="{Binding EstadosDisponibles}"
+                        SelectedItem="{Binding EstadoSeleccionado}"
+                        Title="Selecciona un estado" />
+                <Label Text="{Binding EstadoError}"
+                       Style="{StaticResource ErrorLabel}"
+                       IsVisible="{Binding EstadoError, Converter={StaticResource StringNotEmpty}}" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <VerticalStackLayout Grid.Row="1" Spacing="8" Margin="16,8,16,16">
+            <Button Text="Guardar usuario"
+                    Style="{StaticResource PrimaryButton}"
+                    Command="{Binding GuardarCommand}" />
+            <Button Text="Eliminar usuario"
+                    Style="{StaticResource DangerButton}"
+                    Command="{Binding EliminarCommand}"
+                    IsVisible="{Binding ModoEditar}" />
+        </VerticalStackLayout>
+
+    </Grid>
+
+</ContentPage>

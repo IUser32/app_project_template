@@ -1,12 +1,10 @@
 using System.Collections.ObjectModel;
 using EmpleadosApp.Models;
-using SQLite;
 
 namespace EmpleadosApp.Services;
 
 public static class EmpleadosService
 {
-    private static SQLiteAsyncConnection? _db;
     private static bool _inicializado;
 
     public static ObservableCollection<Empleado> Empleados { get; } = new();
@@ -15,29 +13,40 @@ public static class EmpleadosService
     {
         if (_inicializado) return;
 
-        var ruta = Path.Combine(FileSystem.AppDataDirectory, "empleados.db3");
-        _db = new SQLiteAsyncConnection(ruta);
-        await _db.CreateTableAsync<Empleado>();
-
-        var lista = await _db.Table<Empleado>().ToListAsync();
-        Empleados.Clear();
-        foreach (var empleado in lista)
-        {
-            Empleados.Add(empleado);
-        }
+        await DatabaseService.InicializarAsync();
+        await UsuariosService.CargarAsync();
+        await DepartamentosService.CargarAsync();
+        await CargosService.CargarAsync();
+        await CargarAsync();
 
         _inicializado = true;
     }
 
+    public static async Task CargarAsync()
+    {
+        var lista = await DatabaseService.Connection.Table<Empleado>()
+            .OrderBy(e => e.Apellido)
+            .ToListAsync();
+
+        Empleados.Clear();
+        foreach (var empleado in lista)
+        {
+            CompletarNombresRelacionados(empleado);
+            Empleados.Add(empleado);
+        }
+    }
+
     public static async Task AgregarAsync(Empleado empleado)
     {
-        await _db!.InsertAsync(empleado);
+        await DatabaseService.Connection.InsertAsync(empleado);
+        CompletarNombresRelacionados(empleado);
         Empleados.Add(empleado);
     }
 
     public static async Task ActualizarAsync(Empleado empleado)
     {
-        await _db!.UpdateAsync(empleado);
+        await DatabaseService.Connection.UpdateAsync(empleado);
+        CompletarNombresRelacionados(empleado);
 
         var indice = BuscarIndicePorId(empleado.Id);
         if (indice >= 0)
@@ -48,7 +57,7 @@ public static class EmpleadosService
 
     public static async Task EliminarAsync(int id)
     {
-        await _db!.DeleteAsync<Empleado>(id);
+        await DatabaseService.Connection.DeleteAsync<Empleado>(id);
 
         var indice = BuscarIndicePorId(id);
         if (indice >= 0)
@@ -61,6 +70,29 @@ public static class EmpleadosService
     {
         var indice = BuscarIndicePorId(id);
         return indice >= 0 ? Empleados[indice] : null;
+    }
+
+    public static int ContarPorEstado(string estado)
+        => Empleados.Count(e => string.Equals(e.Estado, estado, StringComparison.OrdinalIgnoreCase));
+
+    public static int ContarPorDepartamento(int departamentoId)
+        => Empleados.Count(e => e.DepartamentoId == departamentoId);
+
+    public static void RefrescarNombresRelacionados()
+    {
+        var snapshot = Empleados.ToList();
+        Empleados.Clear();
+        foreach (var empleado in snapshot)
+        {
+            CompletarNombresRelacionados(empleado);
+            Empleados.Add(empleado);
+        }
+    }
+
+    private static void CompletarNombresRelacionados(Empleado empleado)
+    {
+        empleado.CargoNombre = CargosService.NombrePorId(empleado.CargoId);
+        empleado.DepartamentoNombre = DepartamentosService.NombrePorId(empleado.DepartamentoId);
     }
 
     private static int BuscarIndicePorId(int id)

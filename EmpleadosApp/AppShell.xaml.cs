@@ -1,3 +1,5 @@
+using EmpleadosApp.Services;
+
 namespace EmpleadosApp;
 
 public partial class AppShell : Shell
@@ -17,6 +19,7 @@ public partial class AppShell : Shell
 
         if (confirmar)
         {
+            UsuariosService.CerrarSesion();
             FlyoutIsPresented = false;
             await GoToAsync("//login");
         }

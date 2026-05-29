@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -25,8 +26,8 @@ public partial class EmpleadoFormViewModel : ObservableObject, IQueryAttributabl
     [ObservableProperty] private DateTime fechaNacimiento = DateTime.Today.AddYears(-25);
     [ObservableProperty] private string telefono = string.Empty;
     [ObservableProperty] private string correo = string.Empty;
-    [ObservableProperty] private string cargo = string.Empty;
-    [ObservableProperty] private string departamento = string.Empty;
+    [ObservableProperty] private Departamento? departamentoSeleccionado;
+    [ObservableProperty] private Cargo? cargoSeleccionado;
     [ObservableProperty] private DateTime fechaIngreso = DateTime.Today;
     [ObservableProperty] private string salarioTexto = string.Empty;
     [ObservableProperty] private string? estadoSeleccionado;
@@ -37,13 +38,25 @@ public partial class EmpleadoFormViewModel : ObservableObject, IQueryAttributabl
     [ObservableProperty] private string fechaNacimientoError = string.Empty;
     [ObservableProperty] private string telefonoError = string.Empty;
     [ObservableProperty] private string correoError = string.Empty;
-    [ObservableProperty] private string cargoError = string.Empty;
     [ObservableProperty] private string departamentoError = string.Empty;
+    [ObservableProperty] private string cargoError = string.Empty;
     [ObservableProperty] private string fechaIngresoError = string.Empty;
     [ObservableProperty] private string salarioError = string.Empty;
     [ObservableProperty] private string estadoError = string.Empty;
 
+    public ObservableCollection<Departamento> DepartamentosDisponibles => DepartamentosService.Departamentos;
+    public ObservableCollection<Cargo> CargosDisponibles { get; } = new();
     public ObservableCollection<string> EstadosDisponibles { get; } = new() { "Activo", "Inactivo" };
+
+    partial void OnDepartamentoSeleccionadoChanged(Departamento? value)
+    {
+        ActualizarCargosDisponibles(value);
+
+        if (CargoSeleccionado is not null && CargoSeleccionado.DepartamentoId != value?.Id)
+        {
+            CargoSeleccionado = null;
+        }
+    }
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
@@ -72,10 +85,10 @@ public partial class EmpleadoFormViewModel : ObservableObject, IQueryAttributabl
         FechaNacimiento = empleado.FechaNacimiento;
         Telefono = empleado.Telefono;
         Correo = empleado.Correo;
-        Cargo = empleado.Cargo;
-        Departamento = empleado.Departamento;
+        DepartamentoSeleccionado = DepartamentosService.ObtenerPorId(empleado.DepartamentoId);
+        CargoSeleccionado = CargosService.ObtenerPorId(empleado.CargoId);
         FechaIngreso = empleado.FechaIngreso;
-        SalarioTexto = empleado.Salario.ToString();
+        SalarioTexto = empleado.Salario.ToString(CultureInfo.InvariantCulture);
         EstadoSeleccionado = empleado.Estado;
 
         LimpiarErrores();
@@ -158,10 +171,10 @@ public partial class EmpleadoFormViewModel : ObservableObject, IQueryAttributabl
         FechaNacimiento = FechaNacimiento,
         Telefono = Telefono.Trim(),
         Correo = Correo.Trim(),
-        Cargo = Cargo.Trim(),
-        Departamento = Departamento.Trim(),
+        DepartamentoId = DepartamentoSeleccionado!.Id,
+        CargoId = CargoSeleccionado!.Id,
         FechaIngreso = FechaIngreso,
-        Salario = decimal.Parse(SalarioTexto),
+        Salario = decimal.Parse(SalarioTexto, CultureInfo.InvariantCulture),
         Estado = EstadoSeleccionado!
     };
 
@@ -173,8 +186,8 @@ public partial class EmpleadoFormViewModel : ObservableObject, IQueryAttributabl
         ValidarFechaNacimiento();
         ValidarTelefono();
         ValidarCorreo();
-        ValidarCargo();
         ValidarDepartamento();
+        ValidarCargo();
         ValidarFechaIngreso();
         ValidarSalario();
         ValidarEstado();
@@ -182,7 +195,7 @@ public partial class EmpleadoFormViewModel : ObservableObject, IQueryAttributabl
         return new[]
         {
             NombreError, ApellidoError, CedulaError, FechaNacimientoError,
-            TelefonoError, CorreoError, CargoError, DepartamentoError,
+            TelefonoError, CorreoError, DepartamentoError, CargoError,
             FechaIngresoError, SalarioError, EstadoError
         }.All(string.IsNullOrEmpty);
     }
@@ -244,17 +257,17 @@ public partial class EmpleadoFormViewModel : ObservableObject, IQueryAttributabl
             : "El correo no tiene un formato válido.";
     }
 
-    private void ValidarCargo()
+    private void ValidarDepartamento()
     {
-        CargoError = string.IsNullOrWhiteSpace(Cargo) || Cargo.Trim().Length is < 2 or > 50
-            ? "El cargo es obligatorio y debe tener entre 2 y 50 caracteres."
+        DepartamentoError = DepartamentoSeleccionado is null
+            ? "Selecciona un departamento."
             : string.Empty;
     }
 
-    private void ValidarDepartamento()
+    private void ValidarCargo()
     {
-        DepartamentoError = string.IsNullOrWhiteSpace(Departamento) || Departamento.Trim().Length is < 2 or > 50
-            ? "El departamento es obligatorio y debe tener entre 2 y 50 caracteres."
+        CargoError = CargoSeleccionado is null
+            ? "Selecciona un cargo."
             : string.Empty;
     }
 
@@ -267,9 +280,9 @@ public partial class EmpleadoFormViewModel : ObservableObject, IQueryAttributabl
 
     private void ValidarSalario()
     {
-        SalarioError = decimal.TryParse(SalarioTexto, out var salario) && salario > 0
-            ? string.Empty
-            : "El salario debe ser un número mayor a 0.";
+        var ok = decimal.TryParse(SalarioTexto, NumberStyles.Number, CultureInfo.InvariantCulture, out var salario)
+            && salario > 0;
+        SalarioError = ok ? string.Empty : "El salario debe ser un número mayor a 0 (usa punto como separador decimal).";
     }
 
     private void ValidarEstado()
@@ -277,6 +290,18 @@ public partial class EmpleadoFormViewModel : ObservableObject, IQueryAttributabl
         EstadoError = string.IsNullOrWhiteSpace(EstadoSeleccionado)
             ? "Selecciona un estado."
             : string.Empty;
+    }
+
+    private void ActualizarCargosDisponibles(Departamento? departamento)
+    {
+        CargosDisponibles.Clear();
+
+        if (departamento is null) return;
+
+        foreach (var cargo in CargosService.PorDepartamento(departamento.Id))
+        {
+            CargosDisponibles.Add(cargo);
+        }
     }
 
     private void Limpiar()
@@ -287,12 +312,13 @@ public partial class EmpleadoFormViewModel : ObservableObject, IQueryAttributabl
         FechaNacimiento = DateTime.Today.AddYears(-25);
         Telefono = string.Empty;
         Correo = string.Empty;
-        Cargo = string.Empty;
-        Departamento = string.Empty;
+        DepartamentoSeleccionado = null;
+        CargoSeleccionado = null;
         FechaIngreso = DateTime.Today;
         SalarioTexto = string.Empty;
         EstadoSeleccionado = null;
 
+        CargosDisponibles.Clear();
         LimpiarErrores();
     }
 
@@ -304,8 +330,8 @@ public partial class EmpleadoFormViewModel : ObservableObject, IQueryAttributabl
         FechaNacimientoError = string.Empty;
         TelefonoError = string.Empty;
         CorreoError = string.Empty;
-        CargoError = string.Empty;
         DepartamentoError = string.Empty;
+        CargoError = string.Empty;
         FechaIngresoError = string.Empty;
         SalarioError = string.Empty;
         EstadoError = string.Empty;

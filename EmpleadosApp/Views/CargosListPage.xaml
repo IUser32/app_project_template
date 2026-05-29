@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:EmpleadosApp.Models"
+             x:Class="EmpleadosApp.Views.CargosListPage"
+             BackgroundColor="{StaticResource SurfaceBackground}"
+             Title="Cargos">
+
+    <Grid Padding="16" RowDefinitions="Auto,*,Auto" RowSpacing="12">
+
+        <VerticalStackLayout Grid.Row="0" Spacing="2">
+            <Label Text="Cargos"
+                   Style="{StaticResource HeaderLabel}" />
+            <Label Text="Toca un cargo para editarlo"
+                   Style="{StaticResource SubheaderLabel}" />
+        </VerticalStackLayout>
+
+        <Border Grid.Row="1" Style="{StaticResource Card}" Padding="0">
+            <CollectionView x:Name="CargosCollection"
+                            SelectionMode="Single"
+                            SelectionChanged="OnCargoSeleccionado">
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout Padding="24" Spacing="6" HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label Text="Sin cargos"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center" />
+                        <Label Text="Crea el primero con el botón de abajo."
+                               Style="{StaticResource SubheaderLabel}"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Cargo">
+                        <Grid Padding="16,12" ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                            <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                <Label Text="{Binding Nombre}"
+                                       FontAttributes="Bold"
+                                       FontSize="15" />
+                                <Label Text="{Binding SalarioBase, StringFormat='Salario base: ${0:N2}'}"
+                                       FontSize="13"
+                                       TextColor="{StaticResource Gray500}" />
+                            </VerticalStackLayout>
+
+                            <Label Grid.Column="1"
+                                   Text="{Binding Estado}"
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Primary}"
+                                   VerticalOptions="Center" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Border>
+
+        <Button Grid.Row="2"
+                Text="+ Nuevo cargo"
+                Style="{StaticResource PrimaryButton}"
+                Clicked="OnNuevoCargoClicked" />
+
+    </Grid>
+
+</ContentPage>

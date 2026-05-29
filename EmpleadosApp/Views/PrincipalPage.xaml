@@ -1,41 +1,109 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:EmpleadosApp.ViewModels"
+             x:DataType="vm:DashboardViewModel"
              x:Class="EmpleadosApp.Views.PrincipalPage"
              BackgroundColor="{StaticResource SurfaceBackground}"
              Title="Inicio">
 
-    <Grid Padding="24">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="16">
 
-        <VerticalStackLayout Spacing="20" VerticalOptions="Center">
+            <VerticalStackLayout Spacing="2">
+                <Label Text="Panel de control"
+                       Style="{StaticResource HeaderLabel}" />
+                <Label Text="Resumen de tu organización"
+                       Style="{StaticResource SubheaderLabel}" />
+            </VerticalStackLayout>
 
-            <Label Text="Bienvenido"
-                   Style="{StaticResource HeaderLabel}"
-                   HorizontalOptions="Center" />
+            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="12" RowSpacing="12">
 
-            <Label Text="Selecciona una opción"
-                   Style="{StaticResource SubheaderLabel}"
-                   HorizontalOptions="Center"
-                   Margin="0,0,0,16" />
+                <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource Card}" Padding="16">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Empleados" Style="{StaticResource MetricLabel}" />
+                        <Label Text="{Binding TotalEmpleados}" Style="{StaticResource MetricValue}" />
+                        <Label Text="Total registrados" Style="{StaticResource MetricHint}" />
+                    </VerticalStackLayout>
+                </Border>
 
-            <Border Style="{StaticResource Card}">
-                <VerticalStackLayout Spacing="14">
+                <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource Card}" Padding="16">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Activos" Style="{StaticResource MetricLabel}" />
+                        <Label Text="{Binding EmpleadosActivos}"
+                               Style="{StaticResource MetricValue}"
+                               TextColor="{StaticResource Success}" />
+                        <Label Text="{Binding EmpleadosInactivos, StringFormat='Inactivos: {0}'}"
+                               Style="{StaticResource MetricHint}" />
+                    </VerticalStackLayout>
+                </Border>
 
-                    <Button x:Name="VerEmpleadosButton"
-                            Text="Ver empleados"
-                            Style="{StaticResource PrimaryButton}"
-                            Clicked="OnVerEmpleadosClicked" />
+                <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource Card}" Padding="16">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Departamentos" Style="{StaticResource MetricLabel}" />
+                        <Label Text="{Binding TotalDepartamentos}" Style="{StaticResource MetricValue}" />
+                        <Label Text="Áreas registradas" Style="{StaticResource MetricHint}" />
+                    </VerticalStackLayout>
+                </Border>
 
-                    <Button x:Name="CerrarSesionButton"
-                            Text="Cerrar sesión"
-                            Style="{StaticResource DangerButton}"
-                            Clicked="OnCerrarSesionClicked" />
+                <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource Card}" Padding="16">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Cargos" Style="{StaticResource MetricLabel}" />
+                        <Label Text="{Binding TotalCargos}" Style="{StaticResource MetricValue}" />
+                        <Label Text="Puestos definidos" Style="{StaticResource MetricHint}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Card}" Padding="16">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Usuarios del sistema" Style="{StaticResource MetricLabel}" />
+                        <Label Text="{Binding TotalUsuarios}" Style="{StaticResource MetricValue}" />
+                        <Label Text="Cuentas con acceso a la app" Style="{StaticResource MetricHint}" />
+                    </VerticalStackLayout>
+                </Border>
+
+            </Grid>
+
+            <Label Text="Accesos rápidos"
+                   Style="{StaticResource SectionLabel}" />
+
+            <Border Style="{StaticResource Card}" Padding="6">
+                <VerticalStackLayout Spacing="0">
+
+                    <Button Text="Empleados"
+                            Style="{StaticResource NavigationButton}"
+                            Clicked="OnEmpleadosClicked" />
+
+                    <BoxView Style="{StaticResource Divider}" />
+
+                    <Button Text="Departamentos"
+                            Style="{StaticResource NavigationButton}"
+                            Clicked="OnDepartamentosClicked" />
+
+                    <BoxView Style="{StaticResource Divider}" />
+
+                    <Button Text="Cargos"
+                            Style="{StaticResource NavigationButton}"
+                            Clicked="OnCargosClicked" />
+
+                    <BoxView Style="{StaticResource Divider}" />
+
+                    <Button Text="Usuarios"
+                            Style="{StaticResource NavigationButton}"
+                            Clicked="OnUsuariosClicked" />
 
                 </VerticalStackLayout>
             </Border>
 
-        </VerticalStackLayout>
+            <Button Text="+ Nuevo empleado"
+                    Style="{StaticResource PrimaryButton}"
+                    Clicked="OnNuevoEmpleadoClicked" />
 
-    </Grid>
+            <Button Text="Cerrar sesión"
+                    Style="{StaticResource SecondaryButton}"
+                    Clicked="OnCerrarSesionClicked" />
+
+        </VerticalStackLayout>
+    </ScrollView>
 
 </ContentPage>

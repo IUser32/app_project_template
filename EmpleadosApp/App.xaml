@@ -13,6 +13,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <converters:StringNotEmptyConverter x:Key="StringNotEmpty" />
+            <converters:IsNotNullConverter x:Key="IsNotNull" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

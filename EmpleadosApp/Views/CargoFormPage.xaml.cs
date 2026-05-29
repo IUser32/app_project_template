@@ -3,12 +3,12 @@ using EmpleadosApp.ViewModels;
 
 namespace EmpleadosApp.Views;
 
-public partial class EmpleadoFormPage : ContentPage
+public partial class CargoFormPage : ContentPage
 {
-    public EmpleadoFormPage()
+    public CargoFormPage()
     {
         InitializeComponent();
-        BindingContext = new EmpleadoFormViewModel();
+        BindingContext = new CargoFormViewModel();
     }
 
     protected override async void OnAppearing()

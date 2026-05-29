@@ -3,12 +3,12 @@ using EmpleadosApp.ViewModels;
 
 namespace EmpleadosApp.Views;
 
-public partial class EmpleadoFormPage : ContentPage
+public partial class DepartamentoFormPage : ContentPage
 {
-    public EmpleadoFormPage()
+    public DepartamentoFormPage()
     {
         InitializeComponent();
-        BindingContext = new EmpleadoFormViewModel();
+        BindingContext = new DepartamentoFormViewModel();
     }
 
     protected override async void OnAppearing()

@@ -26,6 +26,8 @@ public partial class LoginPage : ContentPage
             return;
         }
 
+        await EmpleadosService.InicializarAsync();
+
         var autenticado = UsuariosService.Autenticar(usuario, contrasena);
         if (autenticado is null)
         {

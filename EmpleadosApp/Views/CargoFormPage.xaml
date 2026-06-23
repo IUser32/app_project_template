@@ -7,48 +7,51 @@
              BackgroundColor="{StaticResource SurfaceBackground}"
              Title="{Binding TituloPagina}">
 
-    <ContentPage.Resources>
-        <Style x:Key="ErrorLabel" TargetType="Label">
-            <Setter Property="TextColor" Value="{StaticResource Danger}" />
-            <Setter Property="FontSize" Value="12" />
-            <Setter Property="Margin" Value="0,2,0,4" />
-        </Style>
-    </ContentPage.Resources>
-
     <Grid RowDefinitions="*,Auto">
 
         <ScrollView Grid.Row="0">
-            <VerticalStackLayout Padding="16,16,16,8" Spacing="2">
+            <VerticalStackLayout Padding="20,16,20,8" Spacing="2">
 
-                <Label Text="Datos del cargo" Style="{StaticResource SectionLabel}" />
+                <Label Text="DATOS DEL CARGO" Style="{StaticResource SectionLabel}" />
 
                 <Label Text="Nombre" Style="{StaticResource FormLabel}" />
-                <Entry Text="{Binding Nombre}" Placeholder="Ej. Analista" />
+                <Border Style="{StaticResource Field}">
+                    <Entry Text="{Binding Nombre}" Style="{StaticResource FieldInput}" Placeholder="Ej. Analista" />
+                </Border>
                 <Label Text="{Binding NombreError}"
                        Style="{StaticResource ErrorLabel}"
                        IsVisible="{Binding NombreError, Converter={StaticResource StringNotEmpty}}" />
 
                 <Label Text="Departamento" Style="{StaticResource FormLabel}" />
-                <Picker ItemsSource="{Binding DepartamentosDisponibles}"
-                        ItemDisplayBinding="{Binding Nombre}"
-                        SelectedItem="{Binding DepartamentoSeleccionado}"
-                        Title="Selecciona un departamento" />
+                <Border Style="{StaticResource Field}">
+                    <Picker ItemsSource="{Binding DepartamentosDisponibles}"
+                            ItemDisplayBinding="{Binding Nombre}"
+                            SelectedItem="{Binding DepartamentoSeleccionado}"
+                            Style="{StaticResource FieldPicker}"
+                            Title="Selecciona un departamento" />
+                </Border>
                 <Label Text="{Binding DepartamentoError}"
                        Style="{StaticResource ErrorLabel}"
                        IsVisible="{Binding DepartamentoError, Converter={StaticResource StringNotEmpty}}" />
 
                 <Label Text="Salario base" Style="{StaticResource FormLabel}" />
-                <Entry Text="{Binding SalarioBaseTexto}"
-                       Placeholder="0.00"
-                       Keyboard="Numeric" />
+                <Border Style="{StaticResource Field}">
+                    <Entry Text="{Binding SalarioBaseTexto}"
+                           Style="{StaticResource FieldInput}"
+                           Placeholder="0.00"
+                           Keyboard="Numeric" />
+                </Border>
                 <Label Text="{Binding SalarioBaseError}"
                        Style="{StaticResource ErrorLabel}"
                        IsVisible="{Binding SalarioBaseError, Converter={StaticResource StringNotEmpty}}" />
 
                 <Label Text="Estado" Style="{StaticResource FormLabel}" />
-                <Picker ItemsSource="{Binding EstadosDisponibles}"
-                        SelectedItem="{Binding EstadoSeleccionado}"
-                        Title="Selecciona un estado" />
+                <Border Style="{StaticResource Field}">
+                    <Picker ItemsSource="{Binding EstadosDisponibles}"
+                            SelectedItem="{Binding EstadoSeleccionado}"
+                            Style="{StaticResource FieldPicker}"
+                            Title="Selecciona un estado" />
+                </Border>
                 <Label Text="{Binding EstadoError}"
                        Style="{StaticResource ErrorLabel}"
                        IsVisible="{Binding EstadoError, Converter={StaticResource StringNotEmpty}}" />
@@ -56,7 +59,7 @@
             </VerticalStackLayout>
         </ScrollView>
 
-        <VerticalStackLayout Grid.Row="1" Spacing="8" Margin="16,8,16,16">
+        <VerticalStackLayout Grid.Row="1" Spacing="10" Margin="20,8,20,16">
             <Button Text="Guardar cargo"
                     Style="{StaticResource PrimaryButton}"
                     Command="{Binding GuardarCommand}" />

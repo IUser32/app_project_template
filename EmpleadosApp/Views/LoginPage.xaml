@@ -5,43 +5,67 @@
              BackgroundColor="{StaticResource SurfaceBackground}"
              Title="Iniciar sesión">
 
-    <Grid Padding="24">
+    <ScrollView>
+        <Grid Padding="28" RowDefinitions="*,Auto,*">
 
-        <VerticalStackLayout Spacing="20" VerticalOptions="Center">
+            <VerticalStackLayout Grid.Row="1" Spacing="28" VerticalOptions="Center">
 
-            <Label Text="Gestión de Empleados"
-                   Style="{StaticResource HeaderLabel}"
-                   HorizontalOptions="Center"
-                   Margin="0,0,0,12" />
+                <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                    <Border WidthRequest="64"
+                            HeightRequest="64"
+                            BackgroundColor="{StaticResource Primary}"
+                            HorizontalOptions="Center">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="20" />
+                        </Border.StrokeShape>
+                        <Label Text="E"
+                               TextColor="White"
+                               FontSize="32"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
+                    </Border>
 
-            <Border Style="{StaticResource Card}">
-                <VerticalStackLayout Spacing="6">
-
-                    <Label Text="Iniciar sesión"
-                           FontSize="18"
+                    <Label Text="Gestión de Empleados"
+                           FontSize="24"
                            FontAttributes="Bold"
-                           Margin="0,0,0,8" />
-
-                    <Label Text="Usuario" Style="{StaticResource FormLabel}" />
-                    <Entry x:Name="UsuarioEntry"
-                           Placeholder="admin" />
-
-                    <Label Text="Contraseña" Style="{StaticResource FormLabel}" />
-                    <Entry x:Name="ContrasenaEntry"
-                           Placeholder="********"
-                           IsPassword="True" />
-
-                    <Button x:Name="IniciarSesionButton"
-                            Text="Iniciar sesión"
-                            Style="{StaticResource PrimaryButton}"
-                            Clicked="OnIniciarSesionClicked"
-                            Margin="0,16,0,0" />
-
+                           TextColor="{StaticResource Gray900}"
+                           HorizontalOptions="Center" />
+                    <Label Text="Inicia sesión para continuar"
+                           Style="{StaticResource SubheaderLabel}"
+                           HorizontalOptions="Center" />
                 </VerticalStackLayout>
-            </Border>
 
-        </VerticalStackLayout>
+                <Border Style="{StaticResource Card}">
+                    <VerticalStackLayout Spacing="4">
 
-    </Grid>
+                        <Label Text="Usuario" Style="{StaticResource FormLabel}" />
+                        <Border Style="{StaticResource Field}">
+                            <Entry x:Name="UsuarioEntry"
+                                   Style="{StaticResource FieldInput}"
+                                   Placeholder="admin" />
+                        </Border>
+
+                        <Label Text="Contraseña" Style="{StaticResource FormLabel}" />
+                        <Border Style="{StaticResource Field}">
+                            <Entry x:Name="ContrasenaEntry"
+                                   Style="{StaticResource FieldInput}"
+                                   Placeholder="••••••••"
+                                   IsPassword="True" />
+                        </Border>
+
+                        <Button x:Name="IniciarSesionButton"
+                                Text="Iniciar sesión"
+                                Style="{StaticResource PrimaryButton}"
+                                Clicked="OnIniciarSesionClicked"
+                                Margin="0,20,0,0" />
+
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+
+        </Grid>
+    </ScrollView>
 
 </ContentPage>

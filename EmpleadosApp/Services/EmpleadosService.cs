@@ -5,21 +5,21 @@ namespace EmpleadosApp.Services;
 
 public static class EmpleadosService
 {
-    private static bool _inicializado;
+    private static Task? _inicializacion;
 
     public static ObservableCollection<Empleado> Empleados { get; } = new();
 
-    public static async Task InicializarAsync()
-    {
-        if (_inicializado) return;
+    // Single-flight: todos los llamados comparten una sola inicializacion,
+    // evitando cargas concurrentes que se pisan entre si en el primer arranque.
+    public static Task InicializarAsync() => _inicializacion ??= EjecutarInicializacionAsync();
 
+    private static async Task EjecutarInicializacionAsync()
+    {
         await DatabaseService.InicializarAsync();
         await UsuariosService.CargarAsync();
         await DepartamentosService.CargarAsync();
         await CargosService.CargarAsync();
         await CargarAsync();
-
-        _inicializado = true;
     }
 
     public static async Task CargarAsync()

@@ -7,40 +7,42 @@
              BackgroundColor="{StaticResource SurfaceBackground}"
              Title="{Binding TituloPagina}">
 
-    <ContentPage.Resources>
-        <Style x:Key="ErrorLabel" TargetType="Label">
-            <Setter Property="TextColor" Value="{StaticResource Danger}" />
-            <Setter Property="FontSize" Value="12" />
-            <Setter Property="Margin" Value="0,2,0,4" />
-        </Style>
-    </ContentPage.Resources>
-
     <Grid RowDefinitions="*,Auto">
 
         <ScrollView Grid.Row="0">
-            <VerticalStackLayout Padding="16,16,16,8" Spacing="2">
+            <VerticalStackLayout Padding="20,16,20,8" Spacing="2">
 
-                <Label Text="Datos del departamento" Style="{StaticResource SectionLabel}" />
+                <Label Text="DATOS DEL DEPARTAMENTO" Style="{StaticResource SectionLabel}" />
 
                 <Label Text="Nombre" Style="{StaticResource FormLabel}" />
-                <Entry Text="{Binding Nombre}" Placeholder="Ej. Sistemas" />
+                <Border Style="{StaticResource Field}">
+                    <Entry Text="{Binding Nombre}" Style="{StaticResource FieldInput}" Placeholder="Ej. Sistemas" />
+                </Border>
                 <Label Text="{Binding NombreError}"
                        Style="{StaticResource ErrorLabel}"
                        IsVisible="{Binding NombreError, Converter={StaticResource StringNotEmpty}}" />
 
                 <Label Text="Descripción" Style="{StaticResource FormLabel}" />
-                <Editor Text="{Binding Descripcion}"
-                        Placeholder="Breve descripción del departamento"
-                        AutoSize="TextChanges"
-                        HeightRequest="100" />
+                <Border Style="{StaticResource Field}">
+                    <Editor Text="{Binding Descripcion}"
+                            BackgroundColor="Transparent"
+                            TextColor="{StaticResource Gray900}"
+                            PlaceholderColor="{StaticResource Gray400}"
+                            Placeholder="Breve descripción del departamento"
+                            AutoSize="TextChanges"
+                            HeightRequest="100" />
+                </Border>
                 <Label Text="{Binding DescripcionError}"
                        Style="{StaticResource ErrorLabel}"
                        IsVisible="{Binding DescripcionError, Converter={StaticResource StringNotEmpty}}" />
 
                 <Label Text="Estado" Style="{StaticResource FormLabel}" />
-                <Picker ItemsSource="{Binding EstadosDisponibles}"
-                        SelectedItem="{Binding EstadoSeleccionado}"
-                        Title="Selecciona un estado" />
+                <Border Style="{StaticResource Field}">
+                    <Picker ItemsSource="{Binding EstadosDisponibles}"
+                            SelectedItem="{Binding EstadoSeleccionado}"
+                            Style="{StaticResource FieldPicker}"
+                            Title="Selecciona un estado" />
+                </Border>
                 <Label Text="{Binding EstadoError}"
                        Style="{StaticResource ErrorLabel}"
                        IsVisible="{Binding EstadoError, Converter={StaticResource StringNotEmpty}}" />
@@ -48,7 +50,7 @@
             </VerticalStackLayout>
         </ScrollView>
 
-        <VerticalStackLayout Grid.Row="1" Spacing="8" Margin="16,8,16,16">
+        <VerticalStackLayout Grid.Row="1" Spacing="10" Margin="20,8,20,16">
             <Button Text="Guardar departamento"
                     Style="{StaticResource PrimaryButton}"
                     Command="{Binding GuardarCommand}" />

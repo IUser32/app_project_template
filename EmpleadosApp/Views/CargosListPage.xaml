@@ -6,7 +6,7 @@
              BackgroundColor="{StaticResource SurfaceBackground}"
              Title="Cargos">
 
-    <Grid Padding="16" RowDefinitions="Auto,*,Auto" RowSpacing="12">
+    <Grid Padding="20,16,20,20" RowDefinitions="Auto,*,Auto" RowSpacing="14">
 
         <VerticalStackLayout Grid.Row="0" Spacing="2">
             <Label Text="Cargos"
@@ -20,10 +20,11 @@
                             SelectionMode="Single"
                             SelectionChanged="OnCargoSeleccionado">
                 <CollectionView.EmptyView>
-                    <VerticalStackLayout Padding="24" Spacing="6" HorizontalOptions="Center" VerticalOptions="Center">
+                    <VerticalStackLayout Padding="24,48" Spacing="6" HorizontalOptions="Center" VerticalOptions="Center">
                         <Label Text="Sin cargos"
-                               FontSize="16"
+                               FontSize="17"
                                FontAttributes="Bold"
+                               TextColor="{StaticResource Gray900}"
                                HorizontalOptions="Center" />
                         <Label Text="Crea el primero con el botón de abajo."
                                Style="{StaticResource SubheaderLabel}"
@@ -32,23 +33,20 @@
                 </CollectionView.EmptyView>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Cargo">
-                        <Grid Padding="16,12" ColumnDefinitions="*,Auto" ColumnSpacing="12">
-                            <VerticalStackLayout Grid.Column="0" Spacing="2">
-                                <Label Text="{Binding Nombre}"
-                                       FontAttributes="Bold"
-                                       FontSize="15" />
-                                <Label Text="{Binding SalarioBase, StringFormat='Salario base: ${0:N2}'}"
-                                       FontSize="13"
-                                       TextColor="{StaticResource Gray500}" />
-                            </VerticalStackLayout>
-
-                            <Label Grid.Column="1"
-                                   Text="{Binding Estado}"
-                                   FontSize="12"
-                                   FontAttributes="Bold"
-                                   TextColor="{StaticResource Primary}"
-                                   VerticalOptions="Center" />
-                        </Grid>
+                        <VerticalStackLayout Spacing="0">
+                            <Grid Padding="20,14" ColumnDefinitions="*,Auto,Auto" ColumnSpacing="12">
+                                <VerticalStackLayout Grid.Column="0" Spacing="2" VerticalOptions="Center">
+                                    <Label Text="{Binding Nombre}" Style="{StaticResource RowTitle}" />
+                                    <Label Text="{Binding SalarioBase, StringFormat='Salario base: ${0:N2}'}"
+                                           Style="{StaticResource RowSubtitle}" />
+                                </VerticalStackLayout>
+                                <Border Grid.Column="1" Style="{StaticResource Pill}">
+                                    <Label Text="{Binding Estado}" Style="{StaticResource PillText}" />
+                                </Border>
+                                <Label Grid.Column="2" Style="{StaticResource Chevron}" />
+                            </Grid>
+                            <BoxView Style="{StaticResource Divider}" />
+                        </VerticalStackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

@@ -7,104 +7,125 @@
              BackgroundColor="{StaticResource SurfaceBackground}"
              Title="{Binding TituloPagina}">
 
-    <ContentPage.Resources>
-        <Style x:Key="ErrorLabel" TargetType="Label">
-            <Setter Property="TextColor" Value="{StaticResource Danger}" />
-            <Setter Property="FontSize" Value="12" />
-            <Setter Property="Margin" Value="0,2,0,4" />
-        </Style>
-    </ContentPage.Resources>
-
     <Grid RowDefinitions="*,Auto">
 
         <ScrollView Grid.Row="0">
-            <VerticalStackLayout Padding="16,16,16,8" Spacing="2">
+            <VerticalStackLayout Padding="20,16,20,8" Spacing="2">
 
-                <Label Text="Datos personales" Style="{StaticResource SectionLabel}" />
+                <Label Text="DATOS PERSONALES" Style="{StaticResource SectionLabel}" />
 
                 <Label Text="Nombre" Style="{StaticResource FormLabel}" />
-                <Entry Text="{Binding Nombre}" Placeholder="Ej. Juan" />
+                <Border Style="{StaticResource Field}">
+                    <Entry Text="{Binding Nombre}" Style="{StaticResource FieldInput}" Placeholder="Ej. Juan" />
+                </Border>
                 <Label Text="{Binding NombreError}"
                        Style="{StaticResource ErrorLabel}"
                        IsVisible="{Binding NombreError, Converter={StaticResource StringNotEmpty}}" />
 
                 <Label Text="Apellido" Style="{StaticResource FormLabel}" />
-                <Entry Text="{Binding Apellido}" Placeholder="Ej. Pérez" />
+                <Border Style="{StaticResource Field}">
+                    <Entry Text="{Binding Apellido}" Style="{StaticResource FieldInput}" Placeholder="Ej. Pérez" />
+                </Border>
                 <Label Text="{Binding ApellidoError}"
                        Style="{StaticResource ErrorLabel}"
                        IsVisible="{Binding ApellidoError, Converter={StaticResource StringNotEmpty}}" />
 
                 <Label Text="Cédula" Style="{StaticResource FormLabel}" />
-                <Entry Text="{Binding Cedula}"
-                       Placeholder="10 dígitos"
-                       Keyboard="Numeric"
-                       MaxLength="10" />
+                <Border Style="{StaticResource Field}">
+                    <Entry Text="{Binding Cedula}"
+                           Style="{StaticResource FieldInput}"
+                           Placeholder="10 dígitos"
+                           Keyboard="Numeric"
+                           MaxLength="10" />
+                </Border>
                 <Label Text="{Binding CedulaError}"
                        Style="{StaticResource ErrorLabel}"
                        IsVisible="{Binding CedulaError, Converter={StaticResource StringNotEmpty}}" />
 
                 <Label Text="Fecha de nacimiento" Style="{StaticResource FormLabel}" />
-                <DatePicker Date="{Binding FechaNacimiento}" Format="dd/MM/yyyy" />
+                <Border Style="{StaticResource Field}">
+                    <DatePicker Date="{Binding FechaNacimiento}" Style="{StaticResource FieldDatePicker}" Format="dd/MM/yyyy" />
+                </Border>
                 <Label Text="{Binding FechaNacimientoError}"
                        Style="{StaticResource ErrorLabel}"
                        IsVisible="{Binding FechaNacimientoError, Converter={StaticResource StringNotEmpty}}" />
 
                 <Label Text="Teléfono" Style="{StaticResource FormLabel}" />
-                <Entry Text="{Binding Telefono}"
-                       Placeholder="10 dígitos"
-                       Keyboard="Telephone"
-                       MaxLength="10" />
+                <Border Style="{StaticResource Field}">
+                    <Entry Text="{Binding Telefono}"
+                           Style="{StaticResource FieldInput}"
+                           Placeholder="10 dígitos"
+                           Keyboard="Telephone"
+                           MaxLength="10" />
+                </Border>
                 <Label Text="{Binding TelefonoError}"
                        Style="{StaticResource ErrorLabel}"
                        IsVisible="{Binding TelefonoError, Converter={StaticResource StringNotEmpty}}" />
 
                 <Label Text="Correo" Style="{StaticResource FormLabel}" />
-                <Entry Text="{Binding Correo}"
-                       Placeholder="ejemplo@correo.com"
-                       Keyboard="Email" />
+                <Border Style="{StaticResource Field}">
+                    <Entry Text="{Binding Correo}"
+                           Style="{StaticResource FieldInput}"
+                           Placeholder="ejemplo@correo.com"
+                           Keyboard="Email" />
+                </Border>
                 <Label Text="{Binding CorreoError}"
                        Style="{StaticResource ErrorLabel}"
                        IsVisible="{Binding CorreoError, Converter={StaticResource StringNotEmpty}}" />
 
-                <Label Text="Información laboral" Style="{StaticResource SectionLabel}" />
+                <Label Text="INFORMACIÓN LABORAL" Style="{StaticResource SectionLabel}" />
 
                 <Label Text="Departamento" Style="{StaticResource FormLabel}" />
-                <Picker ItemsSource="{Binding DepartamentosDisponibles}"
-                        ItemDisplayBinding="{Binding Nombre}"
-                        SelectedItem="{Binding DepartamentoSeleccionado}"
-                        Title="Selecciona un departamento" />
+                <Border Style="{StaticResource Field}">
+                    <Picker ItemsSource="{Binding DepartamentosDisponibles}"
+                            ItemDisplayBinding="{Binding Nombre}"
+                            SelectedItem="{Binding DepartamentoSeleccionado}"
+                            Style="{StaticResource FieldPicker}"
+                            Title="Selecciona un departamento" />
+                </Border>
                 <Label Text="{Binding DepartamentoError}"
                        Style="{StaticResource ErrorLabel}"
                        IsVisible="{Binding DepartamentoError, Converter={StaticResource StringNotEmpty}}" />
 
                 <Label Text="Cargo" Style="{StaticResource FormLabel}" />
-                <Picker ItemsSource="{Binding CargosDisponibles}"
-                        ItemDisplayBinding="{Binding Nombre}"
-                        SelectedItem="{Binding CargoSeleccionado}"
-                        Title="Selecciona un cargo"
-                        IsEnabled="{Binding DepartamentoSeleccionado, Converter={StaticResource IsNotNull}}" />
+                <Border Style="{StaticResource Field}">
+                    <Picker ItemsSource="{Binding CargosDisponibles}"
+                            ItemDisplayBinding="{Binding Nombre}"
+                            SelectedItem="{Binding CargoSeleccionado}"
+                            Style="{StaticResource FieldPicker}"
+                            Title="Selecciona un cargo"
+                            IsEnabled="{Binding DepartamentoSeleccionado, Converter={StaticResource IsNotNull}}" />
+                </Border>
                 <Label Text="{Binding CargoError}"
                        Style="{StaticResource ErrorLabel}"
                        IsVisible="{Binding CargoError, Converter={StaticResource StringNotEmpty}}" />
 
                 <Label Text="Fecha de ingreso" Style="{StaticResource FormLabel}" />
-                <DatePicker Date="{Binding FechaIngreso}" Format="dd/MM/yyyy" />
+                <Border Style="{StaticResource Field}">
+                    <DatePicker Date="{Binding FechaIngreso}" Style="{StaticResource FieldDatePicker}" Format="dd/MM/yyyy" />
+                </Border>
                 <Label Text="{Binding FechaIngresoError}"
                        Style="{StaticResource ErrorLabel}"
                        IsVisible="{Binding FechaIngresoError, Converter={StaticResource StringNotEmpty}}" />
 
                 <Label Text="Salario" Style="{StaticResource FormLabel}" />
-                <Entry Text="{Binding SalarioTexto}"
-                       Placeholder="0.00"
-                       Keyboard="Numeric" />
+                <Border Style="{StaticResource Field}">
+                    <Entry Text="{Binding SalarioTexto}"
+                           Style="{StaticResource FieldInput}"
+                           Placeholder="0.00"
+                           Keyboard="Numeric" />
+                </Border>
                 <Label Text="{Binding SalarioError}"
                        Style="{StaticResource ErrorLabel}"
                        IsVisible="{Binding SalarioError, Converter={StaticResource StringNotEmpty}}" />
 
                 <Label Text="Estado" Style="{StaticResource FormLabel}" />
-                <Picker ItemsSource="{Binding EstadosDisponibles}"
-                        SelectedItem="{Binding EstadoSeleccionado}"
-                        Title="Selecciona un estado" />
+                <Border Style="{StaticResource Field}">
+                    <Picker ItemsSource="{Binding EstadosDisponibles}"
+                            SelectedItem="{Binding EstadoSeleccionado}"
+                            Style="{StaticResource FieldPicker}"
+                            Title="Selecciona un estado" />
+                </Border>
                 <Label Text="{Binding EstadoError}"
                        Style="{StaticResource ErrorLabel}"
                        IsVisible="{Binding EstadoError, Converter={StaticResource StringNotEmpty}}" />
@@ -112,7 +133,7 @@
             </VerticalStackLayout>
         </ScrollView>
 
-        <VerticalStackLayout Grid.Row="1" Spacing="8" Margin="16,8,16,16">
+        <VerticalStackLayout Grid.Row="1" Spacing="10" Margin="20,8,20,16">
             <Button Text="Guardar empleado"
                     Style="{StaticResource PrimaryButton}"
                     Command="{Binding GuardarCommand}" />

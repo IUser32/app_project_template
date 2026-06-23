@@ -21,16 +21,16 @@ public partial class PrincipalPage : ContentPage
         _viewModel.Refrescar();
     }
 
-    private async void OnEmpleadosClicked(object? sender, EventArgs e)
+    private async void OnEmpleadosTapped(object? sender, TappedEventArgs e)
         => await Shell.Current.GoToAsync("//empleados");
 
-    private async void OnDepartamentosClicked(object? sender, EventArgs e)
+    private async void OnDepartamentosTapped(object? sender, TappedEventArgs e)
         => await Shell.Current.GoToAsync("//departamentos");
 
-    private async void OnCargosClicked(object? sender, EventArgs e)
+    private async void OnCargosTapped(object? sender, TappedEventArgs e)
         => await Shell.Current.GoToAsync("//cargos");
 
-    private async void OnUsuariosClicked(object? sender, EventArgs e)
+    private async void OnUsuariosTapped(object? sender, TappedEventArgs e)
         => await Shell.Current.GoToAsync("//usuarios");
 
     private async void OnNuevoEmpleadoClicked(object? sender, EventArgs e)

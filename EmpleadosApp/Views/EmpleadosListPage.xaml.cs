@@ -67,19 +67,4 @@ public partial class EmpleadosListPage : ContentPage
 
         await Shell.Current.GoToAsync($"//empleado-form?id={empleado.Id}");
     }
-
-    private async void OnEliminarEmpleadoClicked(object? sender, EventArgs e)
-    {
-        if (sender is not Button button || button.BindingContext is not Empleado empleado) return;
-
-        var confirmar = await DisplayAlertAsync(
-            "Eliminar empleado",
-            $"¿Seguro que quieres eliminar a {empleado.NombreCompleto}?",
-            "Sí, eliminar",
-            "Cancelar");
-
-        if (!confirmar) return;
-
-        await EmpleadosService.EliminarAsync(empleado.Id);
-    }
 }
